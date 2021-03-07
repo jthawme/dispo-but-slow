@@ -18,6 +18,7 @@ const MAX_SIZE = 1400;
 const CameraPage: React.FC = () => {
   const { photos, setPhotos, setPageState } = useApp();
 
+  const [busy, setBusy] = useState(false);
   const [option, setOption] = useState<CameraOption>();
   const [imagePreview, setImagePreview] = useState<string>();
   const cameraRef = useRef<HTMLDivElement>(null);
@@ -37,6 +38,7 @@ const CameraPage: React.FC = () => {
       return;
     }
 
+    setBusy(true);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -97,6 +99,8 @@ const CameraPage: React.FC = () => {
     ctx.restore();
 
     setPhotos((p) => [...p, canvas.toDataURL("image/jpeg")]);
+
+    setBusy(false);
 
     // canvas.toBlob((blob) => saveAs(blob), "image/jpeg", 1);
   }, [option]);
@@ -165,7 +169,11 @@ const CameraPage: React.FC = () => {
           >
             Take photo →
           </span>
-          <button className={styles.clickerBtn} onClick={takePhoto}>
+          <button
+            disabled={busy}
+            className={styles.clickerBtn}
+            onClick={takePhoto}
+          >
             <span className="visually-hidden">Take photo</span>
           </button>
         </label>
@@ -173,17 +181,23 @@ const CameraPage: React.FC = () => {
 
       <div className={styles.mobileOptions}>
         {option !== CameraOption.Camera ? (
-          <Button onClick={() => setOption(CameraOption.Camera)}>
+          <Button
+            disabled={busy}
+            onClick={() => setOption(CameraOption.Camera)}
+          >
             Use camera
           </Button>
         ) : (
-          <Button onClick={takePhoto}>Take photo</Button>
+          <Button disabled={busy} onClick={takePhoto}>
+            Take photo
+          </Button>
         )}
       </div>
 
       <div className={styles.options}>
         <div>
           <button
+            disabled={busy}
             className={styles.btn}
             onClick={() => setOption(CameraOption.Camera)}
           >
@@ -193,7 +207,12 @@ const CameraPage: React.FC = () => {
         <div>OR</div>
         <div>
           <label>
-            <input type="file" accept="image/*" onChange={onFileInput} />
+            <input
+              disabled={busy}
+              type="file"
+              accept="image/*"
+              onChange={onFileInput}
+            />
             <span className={styles.btn}>Upload photo</span>
           </label>
         </div>
@@ -201,7 +220,7 @@ const CameraPage: React.FC = () => {
 
       {photos.length > 0 && (
         <div className={styles.advance}>
-          <Button onClick={onAdvance}>
+          <Button disabled={busy} onClick={onAdvance}>
             Develop {photos.length} {photos.length > 1 ? "photos" : "photo"}
           </Button>
         </div>
