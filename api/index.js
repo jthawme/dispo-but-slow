@@ -4,9 +4,9 @@ const s3 = new AWS.S3({
   signatureVersion: "v4",
 });
 
-const { getParam } = require("./common/utils");
-const { wrap } = require("./common/wrap");
-const { saveUser, getPhotos } = require("./common/db");
+const { getParam } = require("./utils");
+const { wrap } = require("./wrap");
+const { saveUser, getPhotos } = require("./db");
 
 const ping = wrap(async (event, context, callback) => {
   return {
@@ -100,4 +100,4 @@ const getPhotoSet = wrap(async (event, context, callback) => {
   };
 });
 
-module.exports = { ping, token, protected, save, getUploadUrls, getPhotoSet };
+module.exports = { ping, protected, save, getUploadUrls, getPhotoSet };

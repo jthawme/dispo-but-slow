@@ -7,26 +7,29 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: us-east-1
+  lambdaHashingVersion: 20201221
   environment:
     BUCKET_NAME: ${self:service}-uploads
     SERVICE_NAME: ${self:service}
     DYNAMODB_TABLE: ${self:service}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - "s3:PutObject"
-        - "s3:GetObject"
-        - "s3:PutObjectAcl"
-      Resource: "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*"
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - "s3:PutObject"
+            - "s3:GetObject"
+            - "s3:PutObjectAcl"
+          Resource: "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*"
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 functions:
   ping:
@@ -111,12 +114,11 @@ resources:
         BillingMode: PAY_PER_REQUEST
 
 plugins:
+  # - serverless-plugin-include-dependencies
   - serverless-offline
   - serverless-dotenv-plugin
-  - serverless-plugin-include-dependencies
-
 package:
-  excludeDevDependencies: false
+  excludeDevDependencies: true
   exclude:
     - assets/**
     - components/**

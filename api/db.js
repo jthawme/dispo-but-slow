@@ -1,7 +1,7 @@
 const { DynamoDB } = require("aws-sdk");
 const uniqid = require("uniqid");
-const { TABLE } = require("./constants");
 const { add, format } = require("date-fns");
+const { TABLE } = require("./constants");
 
 const dynamoDb = new DynamoDB.DocumentClient();
 
