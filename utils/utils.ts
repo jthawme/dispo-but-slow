@@ -83,3 +83,19 @@ export const chunk = (arr, chunkSize = 1, cache = []) => {
   while (tmp.length) cache.push(tmp.splice(0, chunkSize));
   return cache;
 };
+
+export const registerBootlegVH = () => {
+  const setVh = () =>
+    document.documentElement.style.setProperty(
+      "--vh",
+      `${window.innerHeight / 100}px`
+    );
+
+  const cb = tickUpdate(() => {
+    setVh();
+  });
+
+  setVh();
+
+  return onWindowResize(cb);
+};

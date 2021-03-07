@@ -31,7 +31,7 @@
 
   .img {
     position: absolute;
-    width: 100vh;
+    width: vh(100);
     max-width: none;
     height: 100vw;
     transform: rotate(90deg) translateY(-100%);
@@ -58,12 +58,12 @@
 
   border-radius: 5px;
 
-  transform: rotate(90deg);
+  // transform: rotate(90deg);
   left: auto;
-  right: 9%;
-  top: 42%;
-  width: 15%;
-  height: 6%;
+  right: 10%;
+  top: 40%;
+  width: 12%;
+  height: 10%;
   object-fit: cover;
 
   @include large-mobile {

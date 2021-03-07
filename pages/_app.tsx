@@ -8,8 +8,14 @@ import { Background } from "../components/Common/Background";
 import "../styles/globals.scss";
 import styles from "../styles/pages/Layout.module.scss";
 import { LogoWrap } from "../components/Common/LogoWrap";
+import { useEffect } from "react";
+import { registerBootlegVH } from "../utils/utils";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    registerBootlegVH();
+  }, []);
+
   return (
     <AppContainer>
       <Head>
