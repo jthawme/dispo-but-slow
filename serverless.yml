@@ -80,6 +80,11 @@ functions:
           cors: true
     handler: api/index.getPhotoSet
 
+  sendEmails:
+    events:
+      - schedule: cron(30 9 * * ? *)
+    handler: api/index.sendEmails
+
 resources:
   Resources:
     Bucket:

@@ -11,13 +11,14 @@
     width: 100%;
   }
 
-  @include tablet {
+  @include large-mobile {
     position: absolute;
 
     top: 50%;
     left: 50%;
 
     width: 600px;
+    height: auto;
 
     transform: translate3d(-50%, -50%, 0);
     padding-top: var(--size-unit-6);
@@ -41,6 +42,14 @@
     position: relative;
     height: 0;
     padding-bottom: 52.5%;
+
+    & > img {
+      position: relative;
+      max-width: 100%;
+      height: auto;
+      transform: none;
+      transform-origin: top left;
+    }
   }
 }
 
@@ -139,6 +148,10 @@
   left: 50%;
 
   transform: translate3d(-50%, 0, 0);
+
+  @include large-mobile {
+    display: none;
+  }
 }
 
 .options {

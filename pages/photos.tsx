@@ -4,7 +4,7 @@ import { format, toDate } from "date-fns";
 import styles from "../styles/pages/Photos.module.scss";
 import { api } from "../utils/api";
 import { Button } from "../components/Common/Button";
-import { useApp } from "../components/AppContext";
+import { PageState, useApp } from "../components/AppContext";
 
 interface PhotosObject {
   email: string;
@@ -18,7 +18,7 @@ interface PhotosObject {
 
 export default function Photos() {
   const router = useRouter();
-  const { setPhotos } = useApp();
+  const { setPhotos, setPageState } = useApp();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [item, setItem] = useState<PhotosObject | undefined>();
@@ -28,6 +28,7 @@ export default function Photos() {
 
     if (photosId) {
       setPhotos([]);
+      setPageState(PageState.Main);
 
       api.photos
         .get(photosId)

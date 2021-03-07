@@ -38,7 +38,6 @@ const saveUser = async (email, fileNames) => {
 };
 
 const getPhotos = async (id) => {
-  console.log(id);
   return dynamoDb
     .get({
       TableName: TABLE.MAIN,
@@ -61,4 +60,48 @@ const getPhotos = async (id) => {
     });
 };
 
-module.exports = { saveUser, getPhotos };
+const getTodays = async (id) => {
+  const d = format(new Date(), "yyyyMMdd");
+
+  return dynamoDb
+    .scan({
+      FilterExpression: "#d = :d",
+      ExpressionAttributeNames: {
+        "#d": "developDate",
+      },
+      ExpressionAttributeValues: {
+        ":d": parseInt(d),
+      },
+      TableName: TABLE.MAIN,
+    })
+    .promise()
+    .then((item) => {
+      if (item.Items && item.Items.length) {
+        return item.Items.filter((i) => !i.sent);
+      }
+
+      throw new Error("No row");
+    });
+};
+
+const markItemsAsSent = async (ids) => {
+  return dynamoDb
+    .transactWrite({
+      TransactItems: ids.map((id) => ({
+        Update: {
+          TableName: TABLE.MAIN,
+          Key: {
+            id,
+          },
+          UpdateExpression: "SET #v = :v",
+          ExpressionAttributeNames: { "#v": "sent" },
+          ExpressionAttributeValues: {
+            ":v": true,
+          },
+        },
+      })),
+    })
+    .promise();
+};
+
+module.exports = { saveUser, getPhotos, getTodays, markItemsAsSent };
