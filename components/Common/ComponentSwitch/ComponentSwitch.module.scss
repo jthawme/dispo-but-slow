@@ -1,0 +1,14 @@
+.switch {
+  opacity: 0;
+  transform: translate3d(0, -10%, 0);
+
+  transition: {
+    duration: 0.25s;
+    property: opacity, transform;
+  }
+
+  &.display {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

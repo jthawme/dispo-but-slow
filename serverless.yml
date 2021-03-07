@@ -1,0 +1,128 @@
+service: dispo
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  environment:
+    BUCKET_NAME: ${self:service}-uploads
+    SERVICE_NAME: ${self:service}
+    DYNAMODB_TABLE: ${self:service}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+        - "s3:PutObjectAcl"
+      Resource: "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  ping:
+    events:
+      - http:
+          method: get
+          path: ping
+          cors: true
+    handler: api/index.ping
+
+  # token:
+  #   events:
+  #     - http:
+  #         method: post
+  #         path: token
+  #         cors: true
+  #   handler: api/index.token
+
+  protected:
+    events:
+      - http:
+          method: get
+          path: protected
+          cors: true
+    handler: api/index.protected
+
+  getUploadUrls:
+    events:
+      - http:
+          method: post
+          path: get-urls
+          cors: true
+    handler: api/index.getUploadUrls
+
+  saveData:
+    events:
+      - http:
+          method: post
+          path: save
+          cors: true
+    handler: api/index.save
+
+  getPhotos:
+    events:
+      - http:
+          method: get
+          path: photos
+          cors: true
+    handler: api/index.getPhotoSet
+
+resources:
+  Resources:
+    Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.BUCKET_NAME}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - PUT
+                - GET
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "https://dispo.jthaw.club"
+                - "http://localhost"
+              AllowedHeaders:
+                - "*"
+        AccessControl: PublicRead
+
+    MainTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        BillingMode: PAY_PER_REQUEST
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-plugin-include-dependencies
+
+package:
+  excludeDevDependencies: false
+  exclude:
+    - assets/**
+    - components/**
+    - functions/**
+    - pages/**
+    - public/**
+    - styles/**
+    - utils/**
+    - .next/**

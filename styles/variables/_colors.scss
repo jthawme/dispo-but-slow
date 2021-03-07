@@ -1,0 +1,11 @@
+:root {
+  --color-white: #fffeff;
+  --color-black: #232323;
+
+  --color-red: #fd3030;
+  --color-text: var(--color-black);
+
+  @include tablet {
+    --color-text: #f8f8f8;
+  }
+}

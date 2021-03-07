@@ -1,0 +1,52 @@
+.stage {
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 100%;
+
+  .title {
+    position: absolute;
+
+    margin: 0;
+    padding: 0;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate3d(-50%, -50%, 0);
+
+    font-weight: var(--font-weight-normal);
+
+    font-size: var(--font-size-large);
+    line-height: 0.9;
+    text-align: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    width: 100%;
+    color: var(--color-black);
+
+    :global(.transition) & {
+      transition: {
+        duration: 0.75s;
+        property: opacity, visibility;
+      }
+    }
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @include tablet {
+      font-size: 4vw;
+    }
+  }
+}
+
+.svg {
+  max-width: 90vw;
+}

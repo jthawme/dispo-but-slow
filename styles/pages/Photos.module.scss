@@ -1,0 +1,100 @@
+.main {
+  position: relative;
+
+  z-index: 10;
+
+  width: 100vw;
+  height: 100vh;
+
+  p a {
+    color: var(--color-red);
+    text-decoration: none;
+  }
+}
+
+.error {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate3d(-50%, -50%, 0);
+
+  text-align: center;
+
+  width: 350px;
+}
+
+.title {
+  font-size: var(--font-size-x-large);
+
+  color: var(--color-red);
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+
+  text-align: center;
+
+  padding: var(--size-unit-6);
+
+  p {
+    max-width: 450px;
+
+    margin: 0 auto 1em;
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+}
+
+.images {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(1fr, 400px));
+  gap: var(--size-unit-4);
+
+  margin-bottom: var(--size-unit-10);
+}
+.image {
+  position: relative;
+
+  line-height: 0;
+
+  cursor: pointer;
+
+  &:after {
+    position: absolute;
+
+    bottom: var(--size-unit-2);
+    right: var(--size-unit-2);
+
+    text-align: right;
+    background-color: var(--color-red);
+    color: var(--color-text);
+
+    padding: 4px;
+    border-radius: 5px;
+
+    content: "Download";
+
+    line-height: 1;
+
+    opacity: 0;
+    transition: {
+      duration: 0.25s;
+      property: opacity;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    &:after {
+      opacity: 1;
+    }
+  }
+}

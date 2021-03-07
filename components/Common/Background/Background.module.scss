@@ -1,0 +1,101 @@
+.container {
+  position: fixed;
+
+  top: -25%;
+  left: -25%;
+
+  width: 150%;
+  height: 150%;
+}
+
+.circle {
+  position: absolute;
+
+  width: 80vw;
+  height: 80vw;
+
+  border-radius: 100%;
+
+  transform: translate3d(-50%, -50%, 0);
+  filter: blur(15vw);
+
+  animation: {
+    timing-function: ease-in-out;
+    iteration-count: infinite;
+  }
+
+  &.one {
+    background-color: #ff0b00;
+
+    top: 50%;
+    left: 15%;
+
+    animation-name: ONECYCLE;
+    animation-duration: 10s;
+    z-index: 2;
+  }
+
+  &.two {
+    background-color: #ffbfa4;
+
+    top: 5%;
+    left: 55%;
+    animation-name: TWOCYCLE;
+    animation-duration: 5s;
+  }
+
+  &.three {
+    background-color: #a4a7ff;
+
+    top: 95%;
+    left: 75%;
+
+    animation-name: THREECYCLE;
+    animation-duration: 15s;
+  }
+}
+
+@keyframes ONECYCLE {
+  0% {
+    transform: translate3d(-55%, -75%, 0);
+  }
+  25% {
+    transform: translate3d(-50%, -75%, 0);
+  }
+  75% {
+    transform: translate3d(-25%, -50%, 0);
+  }
+  100% {
+    transform: translate3d(-55%, -75%, 0);
+  }
+}
+
+@keyframes TWOCYCLE {
+  0% {
+    transform: translate3d(0%, -50%, 0);
+  }
+  25% {
+    transform: translate3d(-25%, -75%, 0);
+  }
+  75% {
+    transform: translate3d(-50%, -50%, 0);
+  }
+  100% {
+    transform: translate3d(0%, -50%, 0);
+  }
+}
+
+@keyframes THREECYCLE {
+  0% {
+    transform: translate3d(-50%, -50%, 0);
+  }
+  25% {
+    transform: translate3d(-75%, -75%, 0);
+  }
+  75% {
+    transform: translate3d(-75%, 0%, 0);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
