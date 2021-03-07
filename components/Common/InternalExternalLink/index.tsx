@@ -19,8 +19,6 @@ const InternalExternalLink: React.FC<InternalExternalLinkProps> = ({
     );
   }
 
-  console.log(props);
-
   return (
     <Link href={to} passHref>
       <a {...props}>{children}</a>

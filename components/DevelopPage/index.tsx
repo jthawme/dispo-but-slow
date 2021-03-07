@@ -26,6 +26,8 @@ const DevelopPage: React.FC = () => {
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
 
+    (e.target as HTMLFormElement).blur();
+
     const fd = new FormData(e.target);
     const email = fd.get("email");
 
@@ -90,7 +92,12 @@ const DevelopPage: React.FC = () => {
         <p>
           <label className={styles.label}>
             <span className={styles.title}>E-mail address</span>
-            <input type="email" name="email" placeholder="E-mail" />
+            <input
+              disabled={saving}
+              type="email"
+              name="email"
+              placeholder="E-mail"
+            />
           </label>
         </p>
         <p>

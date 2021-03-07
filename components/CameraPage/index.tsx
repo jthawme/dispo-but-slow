@@ -140,7 +140,7 @@ const CameraPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div ref={cameraRef} className={styles.camera}>
-        <img src="/camera.png" alt="" />
+        <img className={styles.img} src="/camera.png" alt="" />
 
         <div className={styles.counter}>{photos.length}</div>
 
@@ -158,6 +158,13 @@ const CameraPage: React.FC = () => {
         )}
 
         <label className={styles.clicker}>
+          <span
+            className={classNames(styles.clickerHelp, {
+              [styles.show]: photos.length === 0,
+            })}
+          >
+            Take photo →
+          </span>
           <button className={styles.clickerBtn} onClick={takePhoto}>
             <span className="visually-hidden">Take photo</span>
           </button>

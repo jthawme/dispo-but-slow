@@ -12,6 +12,19 @@
   }
 }
 
+.loading {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate3d(-50%, -50%, 0);
+
+  font-size: 2vw;
+  color: var(--color-black);
+  text-transform: uppercase;
+}
+
 .error {
   position: absolute;
 

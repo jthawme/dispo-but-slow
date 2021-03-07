@@ -110,7 +110,6 @@
   }
 
   @include large-mobile {
-    top: 100%;
-    bottom: auto;
+    bottom: var(--size-unit-4);
   }
 }

@@ -20,7 +20,7 @@ export default function Photos() {
   const router = useRouter();
   const { setPhotos, setPageState } = useApp();
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [item, setItem] = useState<PhotosObject | undefined>();
 
   useEffect(() => {
@@ -39,7 +39,8 @@ export default function Photos() {
 
           setItem(data.item);
         })
-        .catch(() => setError(true));
+        .catch(() => setError(true))
+        .finally(() => setLoading(false));
     }
   }, [router.query]);
 
@@ -56,7 +57,7 @@ export default function Photos() {
 
   return (
     <main className={styles.main}>
-      {loading && <span>Loading</span>}
+      {loading && <span className={styles.loading}>Loading</span>}
       {error && !loading && (
         <div className={styles.error}>
           <h2 className={styles.title}>Uh Oh</h2>
@@ -72,7 +73,7 @@ export default function Photos() {
         <div className={styles.display}>
           <h2 className={styles.title}>Not quite developed yet mate</h2>
           <div className={styles.content}>
-            <p>Check back sometime in the future, not sure when really.</p>
+            <p>Check back sometime in the future, not sure when&nbsp;really.</p>
           </div>
 
           <div className={styles.cta}>
