@@ -93,8 +93,15 @@ export default function Photos() {
 
           <div className={styles.images}>
             {item.urls.map((url) => (
-              <a href={url} download className={styles.image}>
-                <img src={url} alt="" />
+              <a
+                href={url.split("+").join("%2").split("@").join("%40")}
+                download
+                className={styles.image}
+              >
+                <img
+                  src={url.split("+").join("%2").split("@").join("%40")}
+                  alt=""
+                />
               </a>
             ))}
           </div>
