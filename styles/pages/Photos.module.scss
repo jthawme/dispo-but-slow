@@ -68,7 +68,7 @@
 .images {
   display: grid;
 
-  grid-template-columns: repeat(auto-fill, minmax(1fr, 400px));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: var(--size-unit-4);
 
   margin-bottom: var(--size-unit-10);
