@@ -111,8 +111,8 @@ const sendEmails = wrap(async (event, context, callback) => {
         to: item.email,
         from: "hi@jthaw.me", // Use the email address or domain you verified above
         subject: "📷 Your photos are ready",
-        text: `View them and download them here http://dispo.jthaw.club/photos?receipt=${item.id}. \n\n Thanks for your patience, it took a long time`,
-        html: `View them and download them <a href="http://dispo.jthaw.club/photos?receipt=${item.id}">here</a><br/><br/>Thanks for your patience, it took a long time`,
+        text: `View them and download them here http://dispo.jthaw.club/photos?receipt=${item.id}. \n\n Thanks for your patience, it took a long time\n\nMake sure you're signed up for my newsletter for more work like this – https://jthaw.me/newsletter`,
+        html: `View them and download them <a href="http://dispo.jthaw.club/photos?receipt=${item.id}">here</a><br/><br/>Thanks for your patience, it took a long time.<br/><br/>Make sure you're signed up for my <a href="https://jthaw.me/newsletter">newsletter</a> for more work like this.`,
       };
 
       return sgMail.send(msg).then(() => item.id);

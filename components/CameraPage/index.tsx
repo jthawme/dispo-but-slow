@@ -93,18 +93,22 @@ const CameraPage: React.FC = () => {
 
     const noise = await loadImage("/noise.png");
 
-    if (ImageCapture && preview.tagName === "video") {
+    if ("ImageCapture" in window && preview.tagName === "video") {
       const ic = new ImageCapture(
         (preview as any).srcObject.getVideoTracks()[0]
       );
-      const bitmap = await createImageBitmap(
-        await ic.takePhoto({
-          fillLightMode: "auto",
-          imageWidth: 1280,
-          imageHeight: 853,
-        })
-      );
-      ctx.drawImage(bitmap, 0, 0, w, h);
+      try {
+        const bitmap = await createImageBitmap(
+          await ic.takePhoto({
+            fillLightMode: "auto",
+            imageWidth: 1280,
+            imageHeight: 853,
+          })
+        );
+        ctx.drawImage(bitmap, 0, 0, w, h);
+      } catch {
+        ctx.drawImage(preview, 0, 0, w, h);
+      }
     } else {
       ctx.drawImage(preview, 0, 0, w, h);
     }
