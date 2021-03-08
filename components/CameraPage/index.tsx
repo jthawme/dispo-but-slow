@@ -187,7 +187,7 @@ const CameraPage: React.FC = () => {
           <span>Capturing</span>
         </div>
         <div ref={cameraRef} className={styles.camera}>
-          <img className={styles.img} src="/camera.png" alt="" />
+          <div className={styles.img} />
 
           <div className={styles.counter}>{photos.length}</div>
 
