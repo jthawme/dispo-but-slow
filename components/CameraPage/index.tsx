@@ -73,10 +73,10 @@ const CameraPage: React.FC = () => {
 
     const width = isLive
       ? (preview as HTMLVideoElement).videoWidth
-      : (preview as HTMLImageElement).width;
+      : (preview as HTMLImageElement).naturalWidth;
     const height = isLive
       ? (preview as HTMLVideoElement).videoHeight
-      : (preview as HTMLImageElement).height;
+      : (preview as HTMLImageElement).naturalHeight;
 
     const isPortrait = width < height;
 
@@ -157,7 +157,11 @@ const CameraPage: React.FC = () => {
           "load",
           () => {
             setImagePreview(fr.result as string);
-            takePhoto();
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                takePhoto();
+              });
+            });
           },
           false
         );
