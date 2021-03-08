@@ -1881,6 +1881,18 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.0.tgz#fef1904e4668b6e5ecee60c52cc6a078ffa6697d"
   integrity sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
 
+"@types/w3c-image-capture@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/w3c-image-capture/-/w3c-image-capture-1.0.2.tgz#d80c3db69eacce7de0a7f580d9c7fbed0aabdffa"
+  integrity sha512-r3OpASHP8NtO0WVc+YHZQks1qupfpx7wI7SFiVIsvuzmIQIv1K86wUG5w6o2zY2GN2QvjEGIF4eXBpOJa9dj6A==
+  dependencies:
+    "@types/webrtc" "*"
+
+"@types/webrtc@*":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@types/webrtc/-/webrtc-0.0.26.tgz#f1bae07215eb84577c35ca050866820e412a07e2"
+  integrity sha512-hTDoPKPYbgcogZA9eqhihPO+HnUs5BNPfnoOyc9bzcuq56eYV28zwJ+3tortPN0uXgmDvNs3f1JaT4oTbtWxqg==
+
 "@typescript-eslint/typescript-estree@^2.29.0":
   version "2.34.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.34.0.tgz#14aeb6353b39ef0732cc7f1b8285294937cf37d5"

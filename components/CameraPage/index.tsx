@@ -69,7 +69,21 @@ const CameraPage: React.FC = () => {
 
     const noise = await loadImage("/noise.png");
 
-    ctx.drawImage(preview, 0, 0, w, h);
+    if (ImageCapture && preview.tagName === "video") {
+      const ic = new ImageCapture(
+        (preview as any).srcObject.getVideoTracks()[0]
+      );
+      const bitmap = await createImageBitmap(
+        await ic.takePhoto({
+          fillLightMode: "auto",
+          imageWidth: 1280,
+          imageHeight: 853,
+        })
+      );
+      ctx.drawImage(bitmap, 0, 0, w, h);
+    } else {
+      ctx.drawImage(preview, 0, 0, w, h);
+    }
 
     applyPresetOnCanvas(canvas, lofi());
 
