@@ -2,10 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { api } from "../../utils/api";
-import { useApp } from "../AppContext";
+import { PageState, useApp } from "../AppContext";
 import { Button } from "../Common/Button";
 
 import styles from "./DevelopPage.module.scss";
+import { InternalExternalLink } from "../Common/InternalExternalLink";
+import { motion } from "framer-motion";
+import { basicFade } from "../../utils/animations";
 
 function urltoFile(url, filename, mimeType) {
   return fetch(url)
@@ -19,7 +22,7 @@ function urltoFile(url, filename, mimeType) {
 
 const DevelopPage: React.FC = () => {
   const { push } = useRouter();
-  const { photos } = useApp();
+  const { photos, setPageState } = useApp();
   const [saving, setSaving] = useState(false);
   const [savingStep, setSavingStep] = useState(0);
 
@@ -31,6 +34,10 @@ const DevelopPage: React.FC = () => {
     const fd = new FormData(e.target);
     const email = fd.get("email");
 
+    if (!email) {
+      return;
+    }
+
     setSaving(true);
 
     const d = new Date().getTime();
@@ -39,11 +46,6 @@ const DevelopPage: React.FC = () => {
     );
     setSavingStep(0);
 
-    // let token;
-    // api.token
-    //   .get("save")
-    //   .then((data) => {
-    //     token = data.token;
     Promise.resolve()
       .then(() => {
         return api.uploads.getUrls(images.map((img) => img.name));
@@ -79,11 +81,18 @@ const DevelopPage: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <motion.div {...basicFade}>
       <form
         onSubmit={onSubmit}
         className={classNames(styles.container, { [styles.uploading]: saving })}
       >
+        {photos.length < 10 && (
+          <p className={styles.breadcrumb}>
+            <button type="button" onClick={() => setPageState(PageState.Main)}>
+              Go back
+            </button>
+          </p>
+        )}
         <p>I can get these back to you, sometime in the next 1-6 weeks.</p>
         <p>
           Just going to need an e-mail address and I'll send them across no
@@ -115,7 +124,7 @@ const DevelopPage: React.FC = () => {
           </div>
         )}
       </form>
-    </>
+    </motion.div>
   );
 };
 

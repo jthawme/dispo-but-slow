@@ -1,5 +1,5 @@
 .container {
-  position: relative;
+  position: absolute;
 
   width: 100%;
   height: 100%;
@@ -36,8 +36,12 @@
 
   justify-content: flex-start;
 
+  width: 100%;
+
   input[type="email"] {
     background-color: transparent;
+
+    width: 100%;
 
     border: 0;
     border-bottom: 2px solid var(--color-text);
@@ -111,5 +115,23 @@
 
   @include large-mobile {
     bottom: var(--size-unit-4);
+  }
+}
+
+.breadcrumb {
+  width: 100%;
+  text-align: left;
+
+  button {
+    -webkit-appearance: none;
+
+    padding: 0;
+    margin: 0;
+
+    border: 0;
+    font-size: var(--font-size-small);
+    background-color: transparent;
+
+    outline: 0;
   }
 }

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { lofi, applyPresetOnCanvas } from "instagram-filters";
 import classNames from "classnames";
 
@@ -7,6 +13,9 @@ import { getCameraStream } from "../../utils/camera";
 import { loadImage } from "../../utils/promises";
 import { PageState, useApp } from "../AppContext";
 import { Button } from "../Common/Button";
+import { AnimatePresence, motion } from "framer-motion";
+import { basicFade, slideDown, slideUp } from "../../utils/animations";
+import { useMediaQuery } from "../../utils/hooks/mediaQuery";
 
 enum CameraOption {
   Camera = "camera",
@@ -18,24 +27,39 @@ const MAX_SIZE = 1400;
 const CameraPage: React.FC = () => {
   const { photos, setPhotos, setPageState } = useApp();
 
+  const isLarge = useMediaQuery("(min-width: 560px)");
+
   const [busy, setBusy] = useState(false);
-  const [option, setOption] = useState<CameraOption>();
+  const [option, setOption] = useState<CameraOption>(CameraOption.Camera);
   const [imagePreview, setImagePreview] = useState<string>();
   const cameraRef = useRef<HTMLDivElement>(null);
   const cameraStream = useRef<MediaStream>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onVideoRef = useCallback((el: HTMLVideoElement) => {
     if (el) {
-      getCameraStream().then((stream) => {
-        el.srcObject = stream;
-        cameraStream.current = el.srcObject;
-      });
+      getCameraStream()
+        .then((stream) => {
+          el.srcObject = stream;
+          cameraStream.current = el.srcObject;
+        })
+        .catch(() => {
+          setOption(CameraOption.Upload);
+        });
     }
+  }, []);
+
+  const bootstrapFileTake = useCallback(() => {
+    inputRef.current.click();
   }, []);
 
   const takePhoto = useCallback(async () => {
     if (!option) {
       return;
+    }
+
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
     }
 
     setBusy(true);
@@ -129,6 +153,7 @@ const CameraPage: React.FC = () => {
           "load",
           () => {
             setImagePreview(fr.result as string);
+            takePhoto();
           },
           false
         );
@@ -139,10 +164,10 @@ const CameraPage: React.FC = () => {
   );
 
   useEffect(() => {
-    if (option === CameraOption.Upload && cameraStream.current) {
-      cameraStream.current.getTracks().forEach((t) => t.stop());
+    if (photos.length >= 10) {
+      setPageState(PageState.Develop);
     }
-  }, [option]);
+  }, [photos.length]);
 
   useEffect(() => {
     return () => {
@@ -156,90 +181,80 @@ const CameraPage: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <div ref={cameraRef} className={styles.camera}>
-        <img className={styles.img} src="/camera.png" alt="" />
-
-        <div className={styles.counter}>{photos.length}</div>
-
-        {option === CameraOption.Camera && (
-          <video
-            ref={onVideoRef}
-            className={styles.preview}
-            playsInline
-            autoPlay
-          />
-        )}
-
-        {option === CameraOption.Upload && imagePreview && (
-          <img className={styles.preview} src={imagePreview} alt="" />
-        )}
-
-        <label className={styles.clicker}>
-          <span
-            className={classNames(styles.clickerHelp, {
-              [styles.show]: photos.length === 0,
-            })}
-          >
-            Take photo →
-          </span>
-          <button
-            disabled={busy}
-            className={styles.clickerBtn}
-            onClick={takePhoto}
-          >
-            <span className="visually-hidden">Take photo</span>
-          </button>
-        </label>
-      </div>
-
-      <div className={styles.mobileOptions}>
-        {option !== CameraOption.Camera ? (
-          <Button
-            disabled={busy}
-            onClick={() => setOption(CameraOption.Camera)}
-          >
-            Use camera
-          </Button>
-        ) : (
-          <Button disabled={busy} onClick={takePhoto}>
-            Take photo
-          </Button>
-        )}
-      </div>
-
-      <div className={styles.options}>
-        <div>
-          <button
-            disabled={busy}
-            className={styles.btn}
-            onClick={() => setOption(CameraOption.Camera)}
-          >
-            Use camera
-          </button>
+    <motion.div {...basicFade}>
+      <div className={classNames(styles.container, { [styles.busy]: busy })}>
+        <div className={styles.flash}>
+          <span>Capturing</span>
         </div>
-        <div>OR</div>
-        <div>
-          <label>
-            <input
-              disabled={busy}
-              type="file"
-              accept="image/*"
-              onChange={onFileInput}
+        <div ref={cameraRef} className={styles.camera}>
+          <img className={styles.img} src="/camera.png" alt="" />
+
+          <div className={styles.counter}>{photos.length}</div>
+
+          {option === CameraOption.Camera && (
+            <video
+              ref={onVideoRef}
+              className={styles.preview}
+              playsInline
+              autoPlay
             />
-            <span className={styles.btn}>Upload photo</span>
+          )}
+
+          {option === CameraOption.Upload && imagePreview && (
+            <img className={styles.preview} src={imagePreview} alt="" />
+          )}
+
+          <label className={styles.clicker}>
+            <span
+              className={classNames(styles.clickerHelp, {
+                [styles.show]: photos.length === 0,
+              })}
+            >
+              Take photo →
+            </span>
+            <button
+              disabled={busy}
+              className={styles.clickerBtn}
+              onClick={
+                option === CameraOption.Camera ? takePhoto : bootstrapFileTake
+              }
+            >
+              <span className="visually-hidden">Take photo</span>
+            </button>
           </label>
         </div>
+
+        {option === CameraOption.Upload && (
+          <div className={styles.options}>
+            <div>
+              <label>
+                <input
+                  ref={inputRef}
+                  disabled={busy}
+                  type="file"
+                  accept="image/*"
+                  onChange={onFileInput}
+                />
+                <span className={styles.btn}>Upload photo</span>
+              </label>
+            </div>
+          </div>
+        )}
       </div>
 
-      {photos.length > 0 && (
-        <div className={styles.advance}>
-          <Button disabled={busy} onClick={onAdvance}>
+      <AnimatePresence>
+        {photos.length > 0 && (
+          <motion.button
+            {...(!isLarge ? slideDown : slideUp)}
+            disabled={busy}
+            className={styles.advance}
+            onClick={onAdvance}
+          >
             Develop {photos.length} {photos.length > 1 ? "photos" : "photo"}
-          </Button>
-        </div>
-      )}
-    </div>
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

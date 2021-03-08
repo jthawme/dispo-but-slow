@@ -20,15 +20,6 @@ const JTLogo: React.FC<JTLogoProps> = ({
     const ctx = canvasRef.current.getContext("2d");
 
     generate(canvasRef.current, ctx, width, height, width / 28, color);
-
-    const img = canvasRef.current.toDataURL("image/png", 0.5);
-    const link = document.querySelector<HTMLLinkElement | null>(
-      "link[rel~='icon']"
-    );
-
-    if (link) {
-      link.href = img;
-    }
   }, [width, height, color]);
 
   useEffect(() => {

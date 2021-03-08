@@ -1,11 +1,19 @@
 .container {
   position: fixed;
 
-  top: -25%;
-  left: -25%;
+  top: 0%;
+  left: 0%;
 
-  width: 150%;
-  height: 150%;
+  width: 100%;
+  height: 100%;
+
+  @include large-mobile {
+    top: -25%;
+    left: -25%;
+
+    width: 150%;
+    height: 150%;
+  }
 }
 
 .circle {

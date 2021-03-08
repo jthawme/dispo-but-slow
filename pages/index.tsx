@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { PageState, useApp } from "../components/AppContext";
 
 import { IntroAnimation } from "../components/IntroAnimation";
@@ -10,9 +11,11 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      {pageState === PageState.Intro && <IntroAnimation />}
-      {pageState === PageState.Main && <CameraPage />}
-      {pageState === PageState.Develop && <DevelopPage />}
+      <AnimatePresence>
+        {pageState === PageState.Intro && <IntroAnimation key="intro" />}
+        {pageState === PageState.Main && <CameraPage key="camera" />}
+        {pageState === PageState.Develop && <DevelopPage key="develop" />}
+      </AnimatePresence>
     </main>
   );
 }

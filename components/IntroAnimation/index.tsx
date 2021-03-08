@@ -5,6 +5,7 @@ import { ReactComponent as LogoSvg } from "../../assets/logo.svg";
 import styles from "./IntroAnimation.module.scss";
 import { timer } from "../../utils/promises";
 import { PageState, useApp } from "../AppContext";
+import { motion } from "framer-motion";
 
 const IntroAnimation: React.FC = () => {
   const { setPageState } = useApp();
@@ -28,7 +29,7 @@ const IntroAnimation: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.stage}>
+    <motion.div exit={{ opacity: 0 }} className={styles.stage}>
       <h2
         className={classNames(styles.title, {
           [styles.active]: 0 === activeIndex,
@@ -53,7 +54,7 @@ const IntroAnimation: React.FC = () => {
         <span className="visually-hidden">Dispo but slow</span>
         <LogoSvg className={styles.svg} />
       </h1>
-    </div>
+    </motion.div>
   );
 };
 
