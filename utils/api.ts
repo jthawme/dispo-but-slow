@@ -1,5 +1,6 @@
 import qs from "querystring";
 
+// const endpoint = `http://localhost:3001/dev`; // Use for local. Too lazy to switch with an env var
 const endpoint = `https://dk7pwacyj9.execute-api.us-east-1.amazonaws.com/dev`;
 
 const postRoute = (route, data = {}) => {
