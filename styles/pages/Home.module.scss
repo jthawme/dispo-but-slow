@@ -6,3 +6,17 @@
   width: 100vw;
   height: vh(100);
 }
+
+.link {
+  position: absolute;
+
+  top: var(--size-unit-2);
+  right: var(--size-unit-2);
+
+  color: var(--color-red);
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+
+  outline: 0;
+}

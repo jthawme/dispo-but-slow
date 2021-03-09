@@ -6,6 +6,8 @@ interface AppContextProps {
   setPageState: (state: PageState) => void;
   photos: string[];
   setPhotos: React.Dispatch<React.SetStateAction<string[]>>;
+  aboutOpen: boolean;
+  setAboutOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export enum PageState {
@@ -20,12 +22,15 @@ const AppContext = createContext<AppContextProps>({
   setPageState: () => false,
   photos: [],
   setPhotos: () => false,
+  aboutOpen: false,
+  setAboutOpen: () => false,
 });
 
 const AppContainer: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [pageState, setPageState] = useState<PageState>(PageState.Intro);
   const [photos, setPhotos] = useState<string[]>([]);
+  const [aboutOpen, setAboutOpen] = useState<boolean>(false);
 
   useEffect(() => {
     document.documentElement.classList.add("transition");
@@ -39,6 +44,8 @@ const AppContainer: React.FC = ({ children }) => {
         setPageState,
         photos,
         setPhotos,
+        aboutOpen,
+        setAboutOpen,
       }}
     >
       {children}

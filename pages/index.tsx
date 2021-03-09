@@ -5,12 +5,26 @@ import { IntroAnimation } from "../components/IntroAnimation";
 import { CameraPage } from "../components/CameraPage";
 import { DevelopPage } from "../components/DevelopPage";
 import styles from "../styles/pages/Home.module.scss";
+import { useRouter } from "next/router";
+import { basicFade } from "../utils/animations";
 
 export default function Home() {
-  const { pageState } = useApp();
+  const { pageState, setAboutOpen } = useApp();
+  const router = useRouter();
 
   return (
     <main className={styles.main}>
+      <AnimatePresence>
+        {(pageState === PageState.Main || router.pathname !== "/") && (
+          <motion.button
+            {...basicFade}
+            className={styles.link}
+            onClick={() => setAboutOpen(true)}
+          >
+            About
+          </motion.button>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {pageState === PageState.Intro && <IntroAnimation key="intro" />}
         {pageState === PageState.Main && <CameraPage key="camera" />}

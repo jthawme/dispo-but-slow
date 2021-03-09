@@ -44,6 +44,21 @@ const fadeVariants = {
   },
 };
 
+const fadeVariantsQuick = {
+  out: {
+    opacity: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+  in: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
 const baseProps = {
   initial: "out",
   animate: "in",
@@ -63,4 +78,8 @@ export const slideDown = {
 export const basicFade = {
   ...baseProps,
   variants: fadeVariants,
+};
+export const basicFadeQuick = {
+  ...baseProps,
+  variants: fadeVariantsQuick,
 };

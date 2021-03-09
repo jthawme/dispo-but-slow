@@ -10,6 +10,7 @@ import styles from "../styles/pages/Layout.module.scss";
 import { LogoWrap } from "../components/Common/LogoWrap";
 import { useEffect } from "react";
 import { registerBootlegVH } from "../utils/utils";
+import { AboutOverlay } from "../components/AboutOverlay";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -41,6 +42,8 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <Background />
+      <AboutOverlay />
+
       <Component {...pageProps} />
 
       <LogoWrap />

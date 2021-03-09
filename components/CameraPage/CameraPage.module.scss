@@ -54,6 +54,7 @@
     position: relative;
     height: 0;
     padding-bottom: 52.5%;
+    overflow: visible;
 
     .img {
       position: absolute;
@@ -302,6 +303,18 @@
   .busy & {
     opacity: 1;
     visibility: visible;
+  }
+
+  @include large-mobile {
+    top: -5%;
+    left: 25%;
+
+    width: 100px;
+    height: 100px;
+
+    z-index: -1;
+    background: radial-gradient(white, transparent 75%);
+    font-size: 0;
   }
 }
 
