@@ -27,6 +27,30 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@500&display=swap"
           rel="stylesheet"
         />
+
+        <meta property="og:title" content="Dispo-but-slow" />
+        <meta
+          property="og:description"
+          content="A site that promises to develop your photos slower than other competitors"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dispo.jthaw.club" />
+        <meta
+          property="og:image"
+          content="https://dispo.jthaw.club/social.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@jthawme" />
+        <meta name="twitter:title" />
+        <meta property="twitter:url" content="https://dispo.jthaw.club" />
+        <meta
+          name="twitter:description"
+          content="A site that promises to develop your photos slower than other competitors"
+        />
+        <meta
+          name="twitter:image"
+          content="https://dispo.jthaw.club/social.png"
+        />
         <script
           async
           defer
