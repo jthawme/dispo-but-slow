@@ -68,10 +68,14 @@
 .images {
   display: grid;
 
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--size-unit-4);
 
   margin-bottom: var(--size-unit-10);
+
+  @include large-mobile {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
 }
 .image {
   position: relative;
