@@ -118,7 +118,11 @@ const CameraPage: React.FC = () => {
     ctx.save();
     ctx.globalCompositeOperation = "multiply";
     ctx.globalAlpha = 0.1;
-    ctx.drawImage(noise, 0, 0, w, w);
+    if (w > h) {
+      ctx.drawImage(noise, 0, 0, w, w);
+    } else {
+      ctx.drawImage(noise, 0, 0, h, h);
+    }
     ctx.restore();
 
     ctx.save();
